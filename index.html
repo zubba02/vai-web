@@ -817,6 +817,13 @@ svg.i{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke
 #chart{height:330px}
 .has-pm #chart{height:420px}
 .key i.k5{border-color:#fe9b2d}.key i.k6{border-color:#f4c73a;border-top-style:dotted}
+.facts .wide{grid-column:1/-1}
+.aqicard{position:relative;overflow:hidden;border-left:6px solid var(--aqc)!important}
+.aqicard p{font-size:11px;color:#a4cbd0;margin:0}.aqicard p b{color:#f4fbf9}
+.aqipill{display:inline-block;min-width:34px;text-align:center;padding:1px 6px;border-radius:6px;font-weight:700;font-size:11.5px}
+.aqibar{display:flex;margin-top:10px;border-radius:7px;overflow:hidden}
+.aqibar span{flex:1;text-align:center;font-size:10px;font-weight:700;padding:3px 0}
+.aqinames{display:flex;margin-top:3px}.aqinames span{flex:1;text-align:center;font-size:9.5px;color:#66818a;line-height:1.15}
 .pmdot{display:inline-block;width:11px;height:11px;border-radius:50%;margin-right:6px;vertical-align:2px;box-shadow:0 0 0 1px rgba(255,255,255,.3)}
 .key{display:flex;gap:14px;flex-wrap:wrap;font-size:11px;margin:11px 2px 0;color:#acc8d0}
 .key i{display:inline-block;width:16px;height:0;border-top:2px solid #7ce8d7;vertical-align:middle;margin-right:5px}
@@ -1045,6 +1052,15 @@ function rampAt(L,t){const r=L.ramp,x=t*(r.length-1),i=Math.min(r.length-2,Math.
 const windRGB=ms=>rampAt(LAYERS.wind,gam(LAYERS.wind,ms*1.943844)).map(Math.round);
 const rainRGB=mm=>rampAt(LAYERS.rain,gam(LAYERS.rain,mm)).map(Math.round);
 const pmRGB=v=>rampAt(LAYERS.pm,gam(LAYERS.pm,v)).map(Math.round);
+/* US Air Quality Index (0-500), calculated by Open-Meteo from the CAMS forecast */
+const AQI=[[50,'Good','#00e400','#0d2b3e'],[100,'Moderate','#ffff00','#0d2b3e'],[150,'Unhealthy for sensitive groups','#ff7e00','#0d2b3e'],
+  [200,'Unhealthy','#ff0000','#ffffff'],[300,'Very unhealthy','#8f3f97','#ffffff'],[1e9,'Hazardous','#7e0023','#ffffff']];
+const aqiCat=v=>v==null?null:AQI.find(c=>v<=c[0]);
+const hasAQI=!!(P&&P.fields[0].aqi&&P.fields[0].aqi.some(x=>x!=null));
+const aqiPill=v=>{const c=aqiCat(v);return c?`<span class="aqipill" style="background:${c[2]};color:${c[3]}">${Math.round(v)}</span>`:'–';};
+LAYERS.aqi={name:'Air quality index (US AQI)',short:'Air quality',unit:'0–500, from CAMS',cats:true,
+  ramp:AQI.map(c=>c[2]),note:'Worst of the pollutant indices (PM2.5, PM10, ozone, …). Particles use 24-hour rolling averages, as the AQI defines. Calculated by Open-Meteo from the CAMS forecast.'};
+if(!hasAQI) delete LAYERS.aqi;
 if(!P) delete LAYERS.pm;
 
 /* ---------- header ---------- */
@@ -1100,6 +1116,7 @@ function fieldImage(kind,k){
   for(let py=0;py<FH;py++){const lat=lat0+dLat/2-(py+0.5)/S*dLat;
     for(let px=0;px<FW;px++){const lon=lon0-dLon/2+(px+0.5)/S*dLon,o=(py*FW+px)*4;
       if(kind==='wind'){const u=sample(k,'u',lat,lon),v=sample(k,'v',lat,lon);if(u==null)continue;const c=windRGB(Math.hypot(u,v));D[o]=c[0];D[o+1]=c[1];D[o+2]=c[2];D[o+3]=255;}
+      else if(kind==='aqi'){const q=samplePM(k,'aqi',lat,lon);if(q==null)continue;const c=hex(aqiCat(q)[2]);D[o]=c[0];D[o+1]=c[1];D[o+2]=c[2];D[o+3]=205;}
       else if(kind==='pm'){const q=samplePM(k,'pm2_5',lat,lon);if(q==null)continue;const c=pmRGB(q);D[o]=c[0];D[o+1]=c[1];D[o+2]=c[2];D[o+3]=235;}
       else{const r=sample(k,'precip',lat,lon);if(r==null||r<0.1)continue;const c=rainRGB(r);D[o]=c[0];D[o+1]=c[1];D[o+2]=c[2];D[o+3]=Math.round(165+90*gam(LAYERS.rain,r));}
     }}
@@ -1112,11 +1129,14 @@ L.rectangle(bounds,{color:'#0b5661',weight:1,opacity:.45,fill:false,dashArray:'4
 
 /* layers + legend */
 function drawLayers(){
-  $('#layers').innerHTML=['wind','rain','pm'].filter(id=>LAYERS[id]).map(id=>[id,LAYERS[id]]).map(([id,L])=>`<button data-l="${id}" aria-pressed="${id===layer}"><i style="background:${rampCss(L)}"></i>${L.short}</button>`).join('');
+  $('#layers').innerHTML=['wind','rain','pm','aqi'].filter(id=>LAYERS[id]).map(id=>[id,LAYERS[id]]).map(([id,L])=>`<button data-l="${id}" aria-pressed="${id===layer}"><i style="background:${L.cats?`conic-gradient(${AQI.slice(0,4).map((c,q)=>`${c[2]} ${q*25}% ${q*25+25}%`).join(',')})`:rampCss(L)}"></i>${L.short}</button>`).join('');
   document.querySelectorAll('#layers button').forEach(b=>b.onclick=()=>{layer=b.dataset.l;drawLayers();drawLegend();drawField();warm();});
 }
 function drawLegend(){
   const Ly=LAYERS[layer],pos=v=>gam(Ly,v)*100;
+  if(Ly.cats){$('#legend').innerHTML=`<h3>${Ly.name}<span>${Ly.unit}</span></h3>
+    <div class="aqibar">${AQI.map((c,q)=>`<span style="background:${c[2]};color:${c[3]}">${q===0?0:AQI[q-1][0]+1}${q===AQI.length-1?'+':'–'+c[0]}</span>`).join('')}</div>
+    <div class="aqinames">${AQI.map(c=>`<span>${c[1].replace('Unhealthy for sensitive groups','Sensitive groups')}</span>`).join('')}</div><p>${Ly.note}</p>`;return;}
   $('#legend').innerHTML=`<h3>${Ly.name}<span>${Ly.unit}</span></h3><div class="rampbar" style="background:${rampCss(Ly)}"></div>
    <div class="lticks">${Ly.ticks.map((t,q,a)=>`<b class="${q===a.length-1?'end':''}" style="left:${pos(t)}%">${t}${q===a.length-1?'+':''}</b>`).join('')}</div><p>${Ly.note}</p>`;
 }
@@ -1257,7 +1277,9 @@ const tip=$('#tip');
 map.on('mousemove',e=>{const {lat,lng}=e.latlng,u=sample(k,'u',lat,lng),v=sample(k,'v',lat,lng);if(u==null){tip.hidden=true;return;}
   const sp=Math.hypot(u,v),d=(Math.atan2(-u,-v)*180/Math.PI+360)%360,r=Math.max(0,sample(k,'precip',lat,lng)||0);
   const pm=samplePM(k,'pm2_5',lat,lng),pmTxt=pm==null?'':` · PM2.5 ${fmt(pm,0)}`;
-  if(layer==='pm'&&pm!=null){tip.innerHTML=`<b>${fmt(pm,0)} µg/m³</b> PM2.5<br><small>${pmBand(pm)} · wind ${fmt(cv(sp),0)} ${UNITS[unit].l} from ${compass(d)}</small>`;}
+  const aq=hasAQI?samplePM(k,'aqi',lat,lng):null;
+  if(layer==='aqi'&&aq!=null){tip.innerHTML=`<b>AQI ${Math.round(aq)}</b> ${aqiCat(aq)[1]}<br><small>PM2.5 ${fmt(pm,0)} µg/m³ · wind ${fmt(cv(sp),0)} ${UNITS[unit].l} from ${compass(d)}</small>`;}
+  else if(layer==='pm'&&pm!=null){tip.innerHTML=`<b>${fmt(pm,0)} µg/m³</b> PM2.5<br><small>${pmBand(pm)} · wind ${fmt(cv(sp),0)} ${UNITS[unit].l} from ${compass(d)}</small>`;}
   else tip.innerHTML=layer==='wind'?`<b>${fmt(cv(sp),0)} ${UNITS[unit].l}</b> from ${compass(d)}<br><small>rain ${fmt(r)} mm${pmTxt} · ${lat.toFixed(2)}°, ${lng.toFixed(2)}°E</small>`
     :`<b>${fmt(r)} mm</b> in ${ivl} h<br><small>wind ${fmt(cv(sp),0)} ${UNITS[unit].l} ${compass(d)} · ${lat.toFixed(2)}°, ${lng.toFixed(2)}°E</small>`;
   tip.style.left=e.containerPoint.x+'px';tip.style.top=e.containerPoint.y+'px';tip.hidden=false;});
@@ -1277,7 +1299,9 @@ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>{document.que
 document.querySelectorAll('#units button').forEach(b=>b.onclick=()=>{document.querySelectorAll('#units button').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));unit=b.dataset.u;renderPoint();});
 
 let S2=null;
-function series(){const{j,i}=sel,o={precip:[],speed:[],dir:[],gust:[],pm25:[],pm10:[],aod:[]};
+function series(){const{j,i}=sel,o={precip:[],speed:[],dir:[],gust:[],pm25:[],pm10:[],aod:[],aqi:[],a25:[],a10:[],ao3:[]};
+  if(hasAQI)T.forEach((t,q)=>{const pv=(key)=>{const pj=nIdx(P.lats,sel.lat),pi=nIdx(P.lons,sel.lon);return pval(P.fields[q],key,pj,pi);};
+    o.aqi.push(pv('aqi'));o.a25.push(pv('aqi_pm25'));o.a10.push(pv('aqi_pm10'));o.ao3.push(pv('aqi_o3'));});
   T.forEach((t,q)=>{o.pm25.push(samplePM(q,'pm2_5',sel.lat,sel.lon));o.pm10.push(samplePM(q,'pm10',sel.lat,sel.lon));o.aod.push(samplePM(q,'aod',sel.lat,sel.lon));});
   F.fields.forEach(f=>{const u=val(f,'u',j,i),v=val(f,'v',j,i);o.precip.push(val(f,'precip',j,i));o.speed.push(u==null?null:Math.hypot(u,v));
     o.dir.push(u==null?null:(Math.atan2(-u,-v)*180/Math.PI+360)%360);o.gust.push(f.gust?val(f,'gust',j,i):null);});return o;}
@@ -1302,7 +1326,12 @@ function renderNow(){
   const n=Math.min(T.length,Math.round(HRS/ivl)),pr=s.precip.slice(0,n),sw=s.speed.slice(0,n),gu=s.gust.slice(0,n).filter(x=>x!=null);
   const tot=pr.reduce((a,b)=>a+(b||0),0),pmax=Math.max(...pr.map(x=>x||0)),pk=pr.indexOf(pmax),wmax=Math.max(...sw.map(x=>x||0)),wk=sw.indexOf(wmax);
   const wet=pr.filter(x=>x>=0.1).length*ivl;
-  $('#facts').innerHTML=[
+  let aqiCard='';
+  if(hasAQI&&s.aqi[k]!=null){const v=s.aqi[k],c=aqiCat(v),subs=[['PM2.5',s.a25[k]],['PM10',s.a10[k]],['ozone',s.ao3[k]]].filter(x=>x[1]!=null).sort((a,b)=>b[1]-a[1]);
+    const nn=Math.min(T.length,Math.round(HRS/ivl)),av=s.aqi.slice(0,nn),worst=Math.max(...av.filter(x=>x!=null)),wk2=av.indexOf(worst);
+    aqiCard=`<div class="wide aqicard" style="--aqc:${c[2]}"><dt>Air quality now · US AQI${subs.length?` · mainly ${subs[0][0]}`:''}</dt>
+      <dd>${Math.round(v)}<small>${c[1]}</small></dd><p>Worst in the next ${HRS} h: <b>${Math.round(worst)}</b> ${aqiCat(worst)[1].toLowerCase()} · ${lbl(T[wk2])}</p></div>`;}
+  $('#facts').innerHTML=aqiCard+[
     [`Rain, next ${HRS} h`,`${fmt(tot)}<small>mm</small>`],
     ['Wettest 3 hours',pmax>=0.1?`${fmt(pmax)}<small>mm · ${lbl(T[pk])}</small>`:`dry`],
     ['Strongest wind',`${fmt(cv(wmax),0)}<small>${U} · ${lbl(T[wk])}</small>`],
@@ -1345,11 +1374,11 @@ function markChart(){const el=$('#chart');if(!el.layout)return;const x=local(T[k
   Plotly.relayout(el,{shapes:[{type:'line',xref:'x',yref:'paper',x0:x,x1:x,y0:0,y1:1,line:{color:'#f6b180',width:1.6}}]});}
 function drawTable(){
   const s=S2,U=UNITS[unit].l;
-  let h=`<thead><tr><th>Time</th><th>Rain mm</th><th>Wind ${U}</th><th>From</th>${M.has_gust?`<th>Gust</th>`:''}${P?'<th>PM2.5</th>':''}</tr></thead><tbody>`;
+  let h=`<thead><tr><th>Time</th><th>Rain mm</th><th>Wind ${U}</th><th>From</th>${M.has_gust?`<th>Gust</th>`:''}${P?'<th>PM2.5</th>':''}${hasAQI?'<th>AQI</th>':''}</tr></thead><tbody>`;
   T.forEach((t,q)=>{const d=s.dir[q],r=s.precip[q];
     h+=`<tr data-k="${q}" class="${q===k?'on':''}"><td>${lbl(t)}</td><td>${r!=null&&r>=0.1?`<i class="sw" style="background:rgb(${rainRGB(r)})"></i>`:''}${fmt(r)}</td>
       <td><i class="sw" style="background:rgb(${windRGB(s.speed[q]||0)})"></i>${fmt(cv(s.speed[q]),0)}</td>
-      <td>${d==null?'–':`<span class="da" style="display:inline-block;transform:rotate(${(d+180)%360}deg)">↑</span> ${compass(d)}`}</td>${M.has_gust?`<td>${fmt(cv(s.gust[q]),0)}</td>`:''}${P?`<td>${s.pm25[q]==null?'–':`<i class="sw" style="background:rgb(${pmRGB(s.pm25[q])})"></i>${fmt(s.pm25[q],0)}`}</td>`:''}</tr>`;});
+      <td>${d==null?'–':`<span class="da" style="display:inline-block;transform:rotate(${(d+180)%360}deg)">↑</span> ${compass(d)}`}</td>${M.has_gust?`<td>${fmt(cv(s.gust[q]),0)}</td>`:''}${P?`<td>${s.pm25[q]==null?'–':`<i class="sw" style="background:rgb(${pmRGB(s.pm25[q])})"></i>${fmt(s.pm25[q],0)}`}</td>`:''}${hasAQI?`<td>${aqiPill(s.aqi[q])}</td>`:''}</tr>`;});
   $('#tbl').innerHTML=h+'</tbody>';
   document.querySelectorAll('#tbl tr[data-k]').forEach(r=>r.onclick=()=>setTime(+r.dataset.k));
 }
