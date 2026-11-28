@@ -6,9 +6,6 @@
 <title>vai. rain, wind &amp; particulates forecast · Maldives</title>
 <meta name="theme-color" content="#092c3c">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d2b3e'/%3E%3Cg fill='none' stroke-linecap='round' stroke-width='2.6'%3E%3Cpath stroke='%2362bfea' d='M5 11h13a3.5 3.5 0 1 0-3.5-3.5'/%3E%3Cpath stroke='%23fff' d='M5 17h19a3.5 3.5 0 1 1-3.5 3.5'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link id="vai-design-font" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;display=swap" rel="stylesheet">
 <style>
 
 /* required styles */
@@ -886,175 +883,144 @@ svg.i{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke
   #stepBack,#stepFwd{display:none}
 }
 </style>
-<style id="vai-design-refinement">
-/* vai. — visual refinement, applied after the existing app stylesheet.
-   Forecast values, scientific palettes, data and interaction logic are untouched. */
+<style id="vai-plain-interface">
+/* Editorial / meteorological interface. No decorative surfaces or gradients. */
 :root {
-  --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --headfont: var(--font);
-  --paper: #edf3f5;
-  --panel: #ffffff;
-  --raise: #f3f7f8;
-  --ink: #102c3b;
-  --ink2: #496372;
-  --ink3: #587280;
-  --line: #d6e2e7;
-  --line2: #e2ebef;
-  --sea: #087d80;
-  --sea-soft: #e2f4f2;
-  --control: #ffffff;
-  --control-ink: #294b5a;
-  --control-muted: #506b79;
-  --control-hover: #e7f3f2;
-  --control-active: #0b5862;
-  --control-shadow: 0 5px 18px rgba(8, 39, 56, .14);
+  --font: Arial, Helvetica, sans-serif; --headfont: var(--font);
+  --paper:#f4f4f1; --panel:#fff; --raise:#f0f1ee;
+  --ink:#242a2c; --ink2:#4b5559; --ink3:#606c70;
+  --line:#d1d6d5; --line2:#e4e7e5; --sea:#215e6a; --sea-soft:#e8eff0;
+  --mapbg:#d6dcdd; --warn:#785622; --warn-soft:#f4efe4;
+  --active:#245d69; --active-ink:#fff; --surface:var(--panel);
 }
 :root[data-theme="dark"] {
-  --paper: #0a202b;
-  --panel: #102b37;
-  --raise: #163642;
-  --ink: #edf7f8;
-  --ink2: #b5cbd2;
-  --ink3: #9cb7c1;
-  --line: #33515e;
-  --line2: #254550;
-  --control: #102d3b;
-  --control-ink: #e6f3f5;
-  --control-muted: #b8cdd3;
-  --control-hover: #214854;
-  --control-active: #126772;
-  --control-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+  --paper:#202427; --panel:#252a2d; --raise:#303638;
+  --ink:#e9ebea; --ink2:#c1c9c8; --ink3:#a6b0b1;
+  --line:#444b4e; --line2:#373f42; --sea:#a3c8cc; --sea-soft:#33484c;
+  --mapbg:#32383b; --warn:#e2c38d; --warn-soft:#3a3428;
+  --active:#b2cdd0; --active-ink:#202a2c;
 }
-body { font-size: 14px; line-height: 1.55; letter-spacing: 0; }
-button, input, select { font-family: var(--font); }
-:focus-visible { outline: 2px solid var(--sea); outline-offset: 3px; }
-.bar { min-height: 76px; padding-block: 12px; box-shadow: none; }
-.bar::before { height: 2px; }
-.brand { gap: 11px; }
-.brand svg { padding: 10px; width: 28px; height: 28px; border-radius: 13px; box-shadow: none; }
-.brand-name { font-size: 29px; font-weight: 750; letter-spacing: -.055em; }
-.brand-kicker { font-size: 10px; letter-spacing: .075em; font-weight: 600; }
-.runbox { height: auto; min-height: 42px; font-size: 13px; font-weight: 650; letter-spacing: 0; }
-.runbox small { font-size: 11.5px; }
-.run { font-size: 12px; line-height: 1.5; }
-.seg button { font-size: 12px; font-weight: 600; }
-.tag { font-size: 11px; letter-spacing: .035em; }
-.stage { gap: 12px; }
-.mapwrap, .panel { border-radius: 14px; }
-.mapwrap { box-shadow: 0 3px 16px rgba(13, 51, 65, .08); }
-.atlas-index { font-size: 10px; letter-spacing: .075em; font-weight: 650; }
-.layers, .tools, .legend, .pop { background: var(--control); border: 1px solid var(--line); box-shadow: var(--control-shadow); }
-.layers { border-radius: 12px; }
-.layers button { color: var(--control-ink); font-size: 13px; font-weight: 600; min-height: 41px; }
-.layers button i { box-shadow: 0 0 0 2px var(--control), 0 0 0 3px var(--line); }
-.layers button:hover, .tools .ib:hover { background: var(--control-hover); color: var(--control-ink); }
-.layers button[aria-pressed="true"] { background: var(--control-active); color: #fff; box-shadow: none; }
-.tools .ib { color: var(--control-ink); width: 40px; height: 40px; }
-.pop { color: var(--control-ink); font-size: 13px; max-height: min(460px, 65vh); overflow: auto; }
-.pop input { accent-color: var(--sea); }
-.legend { color: var(--control-ink); padding: 12px 14px; width: min(330px, calc(100% - 38px)); }
-.legend h3 { font-size: 13px; font-weight: 650; flex-wrap: wrap; gap: 3px 8px; }
-.legend h3 span, .lticks, .legend p { color: var(--control-muted); }
-.legend h3 span, .lticks { font-size: 11px; }
-.legend p { font-size: 11.5px; line-height: 1.45; }
-.helper strong { font-size: 13px; }
-.helper small { font-size: 11px; }
-/* Keep the existing high-contrast map-label colors against scientific overlays. */
-.isl-lab span { font-weight: 600; }
-.panel { background: linear-gradient(155deg, #103847, #0a2939 72%); box-shadow: 0 4px 18px rgba(9, 47, 58, .12); }
-.panel:focus-within { --sea: #83e0d8; }
-.psl { font-size: 11px; letter-spacing: .085em; padding: 17px 20px 10px; font-weight: 650; }
-.psl .cnt { font-size: 11px; color: #a5c3cc; letter-spacing: .02em; }
-.tabs { padding-inline: 14px; gap: 5px; }
-.tabs button { font-size: 13px; font-weight: 600; padding-block: 12px; }
-.tabs button[aria-selected="true"] { background: rgba(100, 221, 208, .075); border-radius: 8px 8px 0 0; }
-.pane { padding: 20px 19px 25px; }
-.pt-head:before { font-size: 10px; font-weight: 650; letter-spacing: .08em; margin-bottom: 7px; }
-.pt-head h2 { font-size: clamp(23px, 1.75vw, 28px); font-weight: 700; letter-spacing: -.035em; overflow-wrap: anywhere; }
-.pt-head p { font-size: 12px; color: #b0cbd2; margin-top: 5px; }
-.hero { min-height: 148px; margin: 16px 0 13px; padding: 17px 15px; border-radius: 13px; background: linear-gradient(135deg, #116174, #10475c); box-shadow: none; }
-.hero .big { font-size: clamp(42px, 3.5vw, 58px); font-weight: 700; letter-spacing: -.055em; white-space: normal; overflow-wrap: anywhere; }
-.hero .big small { font-size: clamp(15px, 1.3vw, 19px); font-weight: 600; white-space: nowrap; }
-.hero .dirline { font-size: 13px; margin-top: 8px; }
-.hero .cap { font-size: 11.5px; line-height: 1.45; }
-.rose { width: clamp(65px, 6vw, 86px); height: auto; aspect-ratio: 1; }
-.facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-.facts div { min-height: 80px; padding: 12px; gap: 7px; border-radius: 11px; background: rgba(213, 243, 239, .055); }
-.facts dt { font-size: 12px; color: #b3cdd5; font-weight: 550; line-height: 1.4; }
-.facts dd { font-size: 23px; font-weight: 650; letter-spacing: -.035em; line-height: 1.25; overflow-wrap: anywhere; }
-.facts dd small { font-size: 11px; font-weight: 500; }
-.aqicard p { font-size: 12px; color: #b3cdd5; }
-.aqinames span { color: #b3cdd5; font-size: 10px; }
-.sub { margin: 20px 0 10px; }
-#subHead { font-size: 14px !important; }
-.sub span, .key { font-size: 11.5px; }
-.note { font-size: 12px; color: #b0cbd2; }
-#tab-table { overflow-x: auto; }
-.tbl { font-size: 12.5px; }
-.tbl th { font-size: 10px; letter-spacing: .035em; color: #b0cbd2; }
-.tbl td { padding-block: 10px; }
-.time { border-radius: 13px; min-height: 77px; box-shadow: none; }
-.time-intro { font-size: 10px; letter-spacing: .075em; }
-.time-intro small, .tnow span { font-size: 11px; }
-.tnow strong { font-size: 25px; font-weight: 700; letter-spacing: -.035em; }
-.ticks b { font-size: 10.5px; }
-.track { border-radius: 9px; }
-@media (min-width: 861px) and (max-width: 1110px) {
-  .brand-name { font-size: 25px; }
-  .brand-kicker { font-size: 9px; letter-spacing: .04em; }
-  .bar { gap: 10px; }
-  .runbox { gap: 7px; padding-inline: 10px; }
-  .seg button { padding-inline: 8px; }
-  .pane { padding-inline: 15px; }
-  .facts div { padding-inline: 10px; }
+body {font:400 14px/1.45 var(--font);letter-spacing:0;-webkit-font-smoothing:auto}
+:focus-visible {outline:2px solid var(--sea);outline-offset:2px}
+.bar {min-height:64px;padding:10px 18px;gap:18px;box-shadow:none;background:var(--panel)}
+.bar::before,.panel::before,.hero::after,.ping,.signal-dot,.time-intro-bar {display:none}
+.brand {gap:10px}
+.brand svg {width:27px;height:24px;padding:0;background:none;color:var(--ink);border-radius:0;box-shadow:none;stroke-width:1.8}
+.brand-lockup {gap:3px}
+.brand-name {font:700 26px/1 var(--font);letter-spacing:-.04em}
+.brand-stop {color:var(--sea)}
+.brand-kicker {font-size:11px;letter-spacing:0;font-weight:400;color:var(--ink2)}
+.bar-pick {gap:14px}
+.runbox {display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:3px;background:none;border:0;border-left:1px solid var(--line);padding:0 0 0 14px;border-radius:0;height:auto;min-height:32px;font-size:13px;font-weight:600;letter-spacing:0}
+.runbox small,.run {font-size:12px;font-weight:400;line-height:1.4}
+.bar-end {gap:8px}
+.seg {gap:0;padding:0;border:1px solid var(--line);border-radius:3px;background:var(--panel)}
+.seg button {padding:8px 11px;border-radius:0;font-size:12px;font-weight:400;color:var(--ink2);border-right:1px solid var(--line)}
+.seg button:last-child {border-right:0}
+.seg button[aria-pressed="true"] {background:var(--raise);color:var(--ink);box-shadow:inset 0 -2px var(--sea);font-weight:700}
+.ib,.bar-end .ib {border-radius:3px;color:var(--ink2)}
+.bar-end .ib {width:35px;height:35px}
+.tag {font-size:11px;letter-spacing:0;text-transform:none;font-weight:400;background:none;border:0;color:var(--ink2);padding:0}
+.stage {padding:0;gap:0;grid-template-columns:minmax(0,1fr) clamp(340px,29vw,430px)}
+.mapwrap {border:0;border-radius:0;box-shadow:none}
+.atlas-index {top:14px;left:14px;padding:6px 9px;font:400 11px/1.3 var(--font);letter-spacing:0;color:var(--ink2);background:var(--panel);border:1px solid var(--line);border-radius:2px;box-shadow:none;backdrop-filter:none}
+.slash {color:var(--ink3)}
+.layers,.tools,.legend,.pop {background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:3px;box-shadow:none}
+.layers {left:14px;top:47px;gap:0;padding:0}
+.layers button {border-radius:0;padding:9px 12px;min-height:39px;font-weight:400;font-size:13px;color:var(--ink);border-bottom:1px solid var(--line2);gap:9px}
+.layers button:last-child {border-bottom:0}
+.layers button i {width:13px;height:13px;border-radius:1px;box-shadow:none;outline:1px solid var(--line)}
+.layers button:hover,.tools .ib:hover {background:var(--raise);color:var(--ink)}
+.layers button[aria-pressed="true"] {background:var(--raise);color:var(--ink);box-shadow:inset 3px 0 var(--sea);font-weight:700}
+.tools {right:14px;top:14px;padding:0;gap:0}
+.tools .ib {width:37px;height:38px;color:var(--ink);border-radius:0;border-bottom:1px solid var(--line2)}
+.tools .ib:last-of-type {border-bottom:0}
+.pop {right:43px;font-size:13px;padding:14px;max-height:min(450px,65vh);overflow:auto}
+.pop input {accent-color:var(--sea)}
+.legend {left:14px;bottom:22px;padding:10px 12px;width:min(330px,calc(100% - 28px))}
+.legend h3 {font-size:13px;font-weight:600;flex-wrap:wrap;gap:4px 8px}
+.legend h3 span,.legend p,.lticks,.aqinames span {color:var(--ink2)}
+.legend h3 span,.lticks {font-size:11px}
+.legend p {font-size:11.5px;line-height:1.45}
+.rampbar {border-radius:0;height:8px;box-shadow:none;margin-top:8px}
+.aqibar,.aqipill {border-radius:2px}
+.helper {display:none}
+.tip {border-radius:3px;box-shadow:none;background:var(--panel);color:var(--ink);border:1px solid var(--line);font-size:12px}
+.tip b {font-size:14px}
+.ctry-lab span {letter-spacing:.12em;font-weight:700}
+.isl-lab span {font-weight:600}
+.panel {--ink:unset;--ink2:unset;--ink3:unset;--line:unset;--raise:unset;background:var(--panel);border:0;border-left:1px solid var(--line);border-radius:0;box-shadow:none;color:var(--ink)}
+.psl {padding:13px 16px 10px;color:var(--ink);font-size:14px;font-weight:700;letter-spacing:0}
+.psl .cnt {display:none}
+.tabs {padding:0 16px;gap:16px;border-bottom:1px solid var(--line)}
+.tabs button {flex:0 1 auto;font-size:13px;font-weight:400;color:var(--ink2);padding:8px 0 10px;transition:none}
+.tabs button:hover {color:var(--ink)}
+.tabs button[aria-selected="true"] {font-weight:700;color:var(--ink);border-color:var(--sea);background:none;border-radius:0}
+.pane {padding:17px 16px 24px;scrollbar-color:var(--ink3) transparent;overflow:auto}
+.pt-head:before {display:none}
+.pt-head h2 {font:700 23px/1.2 var(--font);letter-spacing:0;color:var(--ink);overflow-wrap:anywhere}
+.pt-head p {font-size:12px;line-height:1.45;color:var(--ink2);margin-top:5px}
+.hero {background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;min-height:0;margin:14px 0 0;padding:0 0 15px;grid-template-columns:minmax(0,1fr) auto;gap:12px}
+.hero .big {font:400 48px/1.1 var(--font);letter-spacing:-.04em;color:var(--ink);white-space:normal;overflow-wrap:anywhere}
+.hero .big small {font:400 18px var(--font);letter-spacing:0;color:var(--ink2);white-space:nowrap}
+.hero .dirline {font-size:13px;color:var(--ink);font-weight:600;margin-top:5px}
+.hero .dirline span,.hero .cap {color:var(--ink2)}
+.hero .cap {font-size:12px;margin-top:6px;max-width:none;letter-spacing:0;line-height:1.5}
+.rose {width:76px;height:76px}
+.rose text {font:400 10px var(--font);fill:var(--ink2)}
+.rose .ring {stroke:var(--line)}
+.rose .arrow {fill:var(--sea);stroke:var(--sea)}
+.facts {gap:0;margin:0;grid-template-columns:repeat(2,minmax(0,1fr))}
+.facts div {border:0;border-bottom:1px solid var(--line);border-radius:0;background:none;min-height:69px;padding:12px 10px 12px 0;gap:6px;justify-content:flex-start}
+.facts dt {font-size:12px;font-weight:400;color:var(--ink2)}
+.facts dd {font:600 22px/1.2 var(--font);letter-spacing:0;color:var(--ink);overflow-wrap:anywhere}
+.facts dd small {font:400 11px var(--font);color:var(--ink2)}
+.facts .aqicard {margin:12px 0 0;padding:6px 0 10px 10px;min-height:0;border-left-width:3px!important}
+.aqicard p {font-size:12px;color:var(--ink2)}
+.aqicard p b {color:var(--ink)}
+.sub {margin:19px 0 8px;font-size:14px;color:var(--ink)}
+#subHead {font-size:14px!important;color:var(--ink)!important;font-weight:700!important}
+.sub span,.note,.key {font-size:12px;color:var(--ink2)}
+.chart {background:var(--panel);border:1px solid var(--line);border-radius:0;padding:9px 4px 4px}
+#tab-table {overflow-x:auto}
+.tbl {font-size:12px;color:var(--ink)}
+.tbl th {font-size:10px;letter-spacing:0;text-transform:none;color:var(--ink2);border-color:var(--line)}
+.tbl td {border-color:var(--line2);padding-block:10px}
+.tbl .da {color:var(--ink2)}
+.tbl tr[data-k]:hover td {background:var(--raise)}
+.tbl tr.on td {color:var(--sea);font-weight:700}
+.time {margin:0;min-height:74px;padding:10px 16px;gap:14px;border:0;border-top:1px solid var(--line);border-radius:0;box-shadow:none;background:var(--panel)}
+.time-intro {font-size:12px;font-weight:600;letter-spacing:0;padding-right:13px}
+.time-intro small,.tnow span {font-size:11px;font-weight:400;color:var(--ink2)}
+.tctl {gap:0}
+.tctl .ib,.play {width:34px;height:36px;border-radius:2px;box-shadow:none;color:var(--ink);background:var(--panel);border:1px solid var(--line)}
+.play {background:var(--raise)}
+.play:hover {background:var(--sea-soft);color:var(--ink)}
+.tnow {width:102px}
+.tnow strong {font:600 24px/1.1 var(--font);letter-spacing:0}
+.track {border-radius:0;box-shadow:inset 0 0 0 1px var(--line);background:var(--raise)}
+.spark path {fill:var(--sea);opacity:.16}
+.ticks b {font-size:10.5px;color:var(--ink2);font-weight:400}
+.thumb {border-color:var(--sea)}
+.thumb::after {border-radius:2px;background:var(--sea);box-shadow:none;width:8px;height:8px;left:-5px}
+:root:not([data-theme="dark"]) .key i {border-color:#187a74}
+:root:not([data-theme="dark"]) .key i.k2 {border-color:#9b662b}
+:root:not([data-theme="dark"]) .key i.k3 {background:#316bb0}
+:root:not([data-theme="dark"]) .key i.k4 {border-color:#65737c}
+:root:not([data-theme="dark"]) .key i.k5 {border-color:#a94e19}
+:root:not([data-theme="dark"]) .key i.k6 {border-color:#8a6d11}
+@media(max-width:1110px) and (min-width:861px) {
+ .bar {gap:12px;padding:10px 12px}.brand-kicker {font-size:10px}.tag {display:none}
+ .stage {grid-template-columns:minmax(0,1fr) 330px}.pane {padding-inline:14px}
 }
-@media (max-width: 860px) {
-  .bar { padding: 10px 12px; gap: 8px; min-height: 0; }
-  .brand-name { font-size: 26px; }
-  .brand-kicker { font-size: 9px; letter-spacing: .045em; }
-  .brand svg { width: 25px; height: 25px; padding: 8px; }
-  .bar-pick { min-width: 0; }
-  .runbox { min-height: 35px; padding: 6px 10px; font-size: 12px; white-space: normal; flex-wrap: wrap; gap: 4px 9px; }
-  .runbox small { font-size: 11px; }
-  .stage { gap: 9px; }
-  .mapwrap { height: 68vh; height: 68svh; min-height: 385px; }
-  .atlas-index { font-size: 9px; max-width: calc(100% - 67px); padding: 7px 10px; gap: 5px; flex-wrap: wrap; }
-  .layers { top: 53px; max-width: calc(100% - 70px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
-  .layers button { font-size: 12px; padding: 7px 9px; min-height: 39px; white-space: normal; text-align: left; gap: 6px; }
-  .layers button i { width: 12px; height: 12px; }
-  .tools .ib { width: 38px; height: 38px; }
-  .pop { right: 47px; max-width: calc(100vw - 78px); }
-  .legend { width: min(290px, calc(100% - 18px)); bottom: 23px; padding: 10px 12px; }
-  .legend p { display: block; font-size: 10.5px; line-height: 1.35; }
-  .pane { padding: 20px; }
-  .hero .big { font-size: clamp(44px, 8vw, 62px); }
-  .hero .big small { font-size: 18px; }
-  .rose { width: 82px; }
-  .time { min-height: 70px; padding-bottom: max(7px, env(safe-area-inset-bottom)); }
-  .tnow strong { font-size: 21px; }
+@media(max-width:860px) {
+ .bar {min-height:0;padding:10px 12px;gap:9px}.brand-kicker {font-size:11px;white-space:normal}.bar-pick {order:3;flex-basis:100%}.runbox {flex-direction:row;align-items:baseline;gap:8px;border:0;padding:0;min-height:0;white-space:normal;flex-wrap:wrap;font-size:12px}
+ .stage {grid-template-columns:1fr}.mapwrap {height:65vh;height:65svh;min-height:350px}.panel {min-height:0;border-left:0;border-top:1px solid var(--line)}.pane {overflow:visible}
+ .atlas-index {left:9px;top:9px;max-width:calc(100% - 65px);font-size:10px}.layers {top:43px;left:9px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-width:calc(100% - 66px)}.layers button {font-size:12px;white-space:normal;text-align:left;padding:7px 8px;min-height:39px}.layers button:nth-child(odd) {border-right:1px solid var(--line2)}
+ .tools {right:9px;top:9px}.pop {max-width:calc(100vw - 72px);max-height:min(340px,55svh)}.legend {left:9px;bottom:22px;width:min(290px,calc(100% - 18px))}.legend p {display:block;font-size:10.5px}
+ .time {gap:8px;padding:7px 10px;min-height:62px;margin:0}.tnow {width:73px}.tnow strong {font-size:20px}.ticks b:not(.day) {display:none}
 }
-@media (max-width: 420px) {
-  .brand { flex: 1 1 100%; }
-  .bar-end { flex: 1 1 auto; justify-content: flex-start; }
-  .bar-pick { order: 2; flex: 1 1 100%; }
-  .brand-kicker { white-space: normal; }
-  .seg button { padding-inline: 10px; }
-  .pane { padding-inline: 15px; }
-  .hero { padding-inline: 12px; }
-  .hero .big { font-size: 43px; }
-  .rose { width: 65px; }
-  .facts dd { font-size: 21px; }
-  .time { gap: 7px; }
-  .tnow { width: 67px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .tabs button { transition: none; }
-}
-
-/* Keep map attribution clear and constrain the settings menu on phones. */
-.legend { bottom: 24px; }
-@media (max-width: 860px) { .pop { max-height: min(340px, 55svh); } .legend { bottom: 23px; } }
-@media (max-width: 360px) { .atlas-index { letter-spacing: .035em; } .layers button { padding-inline: 6px; } .facts dd { font-size: 19px; } }
+@media(max-width:420px) {.brand {flex:1 1 100%}.bar-end {flex:1 1 auto}.bar-pick {order:2}.hero .big {font-size:43px}.rose {width:66px;height:66px}.pane {padding-inline:14px}}
 </style>
 </head>
 <body>
@@ -1063,7 +1029,7 @@ button, input, select { font-family: var(--font); }
   <header class="bar">
     <a class="brand" href="#" aria-label="vai rain and wind forecast">
       <svg class="i" viewBox="0 0 34 24" width="34" height="24" aria-hidden="true"><path d="M2 6h17a4 4 0 1 0-4-4"/><path d="M2 13h25a4 4 0 1 1-4 4" opacity=".7"/><path d="M2 20h12" opacity=".4"/></svg>
-      <span class="brand-lockup"><span class="brand-name">vai<span class="brand-stop">.</span></span><span class="brand-kicker">RAIN · WIND · PARTICULATES / MALDIVES</span></span>
+      <span class="brand-lockup"><span class="brand-name">vai<span class="brand-stop">.</span></span><span class="brand-kicker">Rain, wind and air quality · Maldives</span></span>
     </a>
     <div class="bar-pick">
       <div class="runbox"><span id="runShort"></span><small id="runModel"></small></div>
@@ -1111,7 +1077,7 @@ button, input, select { font-family: var(--font); }
     </section>
 
     <aside class="panel" aria-label="Forecast details">
-      <div class="psl"><span class="signal-dot"></span> LOCATION INSIGHTS <span class="cnt" id="cnt">01 / 02</span></div>
+      <div class="psl"><span class="signal-dot"></span> Forecast at selected point <span class="cnt" id="cnt">01 / 02</span></div>
       <div class="tabs" role="tablist">
         <button role="tab" data-tab="point" aria-selected="true">This point</button>
         <button role="tab" data-tab="table" aria-selected="false">Hour by hour</button>
@@ -1138,7 +1104,7 @@ button, input, select { font-family: var(--font); }
   </main>
 
   <footer class="time" id="time">
-    <div class="time-intro"><span class="time-intro-bar"></span><span>FORECAST TIMELINE<small id="tzNote"></small></span></div>
+    <div class="time-intro"><span class="time-intro-bar"></span><span>Forecast time<small id="tzNote"></small></span></div>
     <div class="tctl">
       <button class="ib" id="stepBack" aria-label="Earlier"><svg class="i" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"/></svg></button>
       <button class="play" id="playBtn" aria-label="Play the forecast"><svg viewBox="0 0 16 16"><path class="i-play" d="M4.5 2.5v11l9-5.5z"/><path class="i-pause" d="M4 2.5h3v11H4zM9 2.5h3v11H9z"/></svg></button>
@@ -1243,7 +1209,7 @@ if(/demo/i.test(loc.name)){$('#tag').textContent='Demo data';}
 let theme='light';
 try{if(matchMedia('(prefers-color-scheme: dark)').matches) theme='dark';}catch(e){}
 function applyTheme(){document.documentElement.dataset.theme=theme;setBasemap();}
-$('#themeBtn').onclick=()=>{theme=theme==='dark'?'light':'dark';applyTheme();};
+$('#themeBtn').onclick=()=>{theme=theme==='dark'?'light':'dark';applyTheme();if(S2)drawChart();};
 
 /* ---------- map ---------- */
 const map=L.map('map',{zoomSnap:0.5,zoomControl:false,attributionControl:true});
@@ -1515,25 +1481,26 @@ function renderNow(){
   markChart();
 }
 function drawChart(){
+  const darkChart=theme==='dark', tone=(dark,light)=>darkChart?dark:light;
   const s=S2,U=UNITS[unit].l,xE=T.map(t=>local(t).toISOString().slice(0,16)),xM=T.map(t=>new Date(local(t).getTime()-ivl*1800e3).toISOString().slice(0,16));
   let c=0;const cum=s.precip.map(p=>c+=(p||0)),sp=s.speed.map(cv),gu=s.gust.map(cv);
   const tr=[
-    {x:xM,y:s.precip,type:'bar',name:'Rain',marker:{color:'#8fb8ff',opacity:.85},width:ivl*3600e3*.72,yaxis:'y',hovertemplate:'%{y:.1f} mm<extra>Rain</extra>'},
-    {x:xE,y:cum,type:'scatter',mode:'lines',name:'Total',line:{color:'#a5c5d0',width:1.5,dash:'dot'},yaxis:'y2',hovertemplate:'%{y:.1f} mm<extra>Total</extra>'},
-    {x:xE,y:sp,type:'scatter',mode:'lines+markers',name:'Wind',line:{color:'#7ce8d7',width:2.7,shape:'spline'},fill:'tozeroy',fillcolor:'rgba(109,217,208,.13)',
-      marker:{symbol:'arrow',size:12,angle:s.dir.map(d=>(d+180)%360),color:'#c9f5f0',line:{width:0}},yaxis:'y3',
+    {x:xM,y:s.precip,type:'bar',name:'Rain',marker:{color:tone('#8fb8ff','#316bb0'),opacity:.85},width:ivl*3600e3*.72,yaxis:'y',hovertemplate:'%{y:.1f} mm<extra>Rain</extra>'},
+    {x:xE,y:cum,type:'scatter',mode:'lines',name:'Total',line:{color:tone('#a5c5d0','#65737c'),width:1.5,dash:'dot'},yaxis:'y2',hovertemplate:'%{y:.1f} mm<extra>Total</extra>'},
+    {x:xE,y:sp,type:'scatter',mode:'lines+markers',name:'Wind',line:{color:tone('#7ce8d7','#187a74'),width:2.7,shape:'spline'},fill:'tozeroy',fillcolor:tone('rgba(109,217,208,.13)','rgba(24,122,116,.10)'),
+      marker:{symbol:'arrow',size:12,angle:s.dir.map(d=>(d+180)%360),color:tone('#c9f5f0','#187a74'),line:{width:0}},yaxis:'y3',
       customdata:s.dir.map(d=>compass(d)),hovertemplate:'%{y:.0f} '+U+' from %{customdata}<extra>Wind</extra>'}];
-  if(P)tr.push({x:xE,y:s.pm25,type:'scatter',mode:'lines',name:'PM2.5',line:{color:'#fe9b2d',width:2.4,shape:'spline'},yaxis:'y4',hovertemplate:'%{y:.0f} µg/m³<extra>PM2.5</extra>'},
-               {x:xE,y:s.pm10,type:'scatter',mode:'lines',name:'PM10',line:{color:'#f4c73a',width:1.4,dash:'dot',shape:'spline'},yaxis:'y4',hovertemplate:'%{y:.0f} µg/m³<extra>PM10</extra>'});
-  if(M.has_gust)tr.push({x:xE,y:gu,type:'scatter',mode:'lines',name:'Gust',line:{color:'#e8bc82',width:2,dash:'dash',shape:'spline'},yaxis:'y3',hovertemplate:'%{y:.0f} '+U+'<extra>Gust</extra>'});
-  const g='rgba(193,236,233,.12)',mr=Math.max(2,...s.precip.map(x=>x||0))*1.2,mw=Math.max(5,...sp.filter(x=>x!=null),...gu.filter(x=>x!=null))*1.18;
-  Plotly.react('chart',tr,{margin:{l:34,r:30,t:4,b:26},font:{family:'Inter, system-ui, sans-serif',size:10.5,color:'#accdd2'},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,
+  if(P)tr.push({x:xE,y:s.pm25,type:'scatter',mode:'lines',name:'PM2.5',line:{color:tone('#fe9b2d','#a94e19'),width:2.4,shape:'spline'},yaxis:'y4',hovertemplate:'%{y:.0f} µg/m³<extra>PM2.5</extra>'},
+               {x:xE,y:s.pm10,type:'scatter',mode:'lines',name:'PM10',line:{color:tone('#f4c73a','#8a6d11'),width:1.4,dash:'dot',shape:'spline'},yaxis:'y4',hovertemplate:'%{y:.0f} µg/m³<extra>PM10</extra>'});
+  if(M.has_gust)tr.push({x:xE,y:gu,type:'scatter',mode:'lines',name:'Gust',line:{color:tone('#e8bc82','#9b662b'),width:2,dash:'dash',shape:'spline'},yaxis:'y3',hovertemplate:'%{y:.0f} '+U+'<extra>Gust</extra>'});
+  const g=tone('rgba(193,236,233,.12)','rgba(36,42,44,.12)'),mr=Math.max(2,...s.precip.map(x=>x||0))*1.2,mw=Math.max(5,...sp.filter(x=>x!=null),...gu.filter(x=>x!=null))*1.18;
+  Plotly.react('chart',tr,{margin:{l:34,r:30,t:4,b:26},font:{family:'Arial, Helvetica, sans-serif',size:10.5,color:tone('#accdd2','#4b5559')},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,
     xaxis:{type:'date',gridcolor:g,tickformat:'%a %Hh',anchor:P?'y4':'y3',linecolor:g,nticks:6},
     yaxis:{domain:P?[.72,1]:[.58,1],range:[0,mr],gridcolor:g,zeroline:false,title:{text:'mm',standoff:2,font:{size:10}}},
     yaxis2:{overlaying:'y',side:'right',showgrid:false,rangemode:'tozero',tickfont:{size:9.5}},
     yaxis3:{domain:P?[.37,.64]:[0,.5],range:[0,mw],gridcolor:g,zeroline:false,title:{text:U,standoff:2,font:{size:10}}},
     yaxis4:{domain:[0,.29],rangemode:'tozero',gridcolor:g,zeroline:false,title:{text:'µg/m³',standoff:2,font:{size:10}},visible:!!P},
-    bargap:.1,hovermode:'x unified',hoverlabel:{bgcolor:'#082f40',bordercolor:'#2f6372',font:{color:'#fff',family:'Inter, system-ui, sans-serif'}},shapes:[]},{displayModeBar:false,responsive:true});
+    bargap:.1,hovermode:'x unified',hoverlabel:{bgcolor:'#082f40',bordercolor:'#2f6372',font:{color:'#fff',family:'Arial, Helvetica, sans-serif'}},shapes:[]},{displayModeBar:false,responsive:true});
   const el=$('#chart');el.removeAllListeners&&el.removeAllListeners('plotly_click');
   el.on('plotly_click',ev=>{const x=String(ev.points[0].x).replace(' ','T').slice(0,16);let q=xE.indexOf(x);if(q<0)q=xM.indexOf(x);if(q>=0)setTime(q);});
   $('#key').innerHTML=`<span><i></i>Wind</span>${M.has_gust?'<span><i class="k2"></i>Gust</span>':''}<span><i class="k3"></i>Rain per ${ivl} h</span><span><i class="k4"></i>Running total</span>${P?'<span><i class="k5"></i>PM2.5</span><span><i class="k6"></i>PM10</span>':''}`;
