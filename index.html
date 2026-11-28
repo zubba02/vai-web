@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>vai. rain, wind &amp; particulates forecast · Maldives</title>
 <meta name="theme-color" content="#092c3c">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d2b3e'/%3E%3Cg fill='none' stroke-linecap='round' stroke-width='2.6'%3E%3Cpath stroke='%2362bfea' d='M5 11h13a3.5 3.5 0 1 0-3.5-3.5'/%3E%3Cpath stroke='%23fff' d='M5 17h19a3.5 3.5 0 1 1-3.5 3.5'/%3E%3C/g%3E%3C/svg%3E">
@@ -1022,6 +1022,84 @@ body {font:400 14px/1.45 var(--font);letter-spacing:0;-webkit-font-smoothing:aut
 }
 @media(max-width:420px) {.brand {flex:1 1 100%}.bar-end {flex:1 1 auto}.bar-pick {order:2}.hero .big {font-size:43px}.rose {width:66px;height:66px}.pane {padding-inline:14px}}
 </style>
+<style id="vai-responsive">
+/* Responsive layout — keeps the original editorial typography and palette. */
+.app,.stage,.mapwrap,.panel,.pane,.bar-pick,.brand-lockup {min-width:0}
+#chart {width:100%;min-width:0}
+#tab-table {max-width:100%;overflow-x:auto;overscroll-behavior-inline:contain;-webkit-overflow-scrolling:touch}
+.tbl th,.tbl td {white-space:nowrap;padding-inline:6px}
+.facts dd small {display:inline-block;max-width:100%;overflow-wrap:anywhere;vertical-align:baseline}
+@media (min-width:901px) and (orientation:landscape) and (max-height:600px) {
+ .bar {min-height:54px;padding-block:6px}.time {min-height:64px;padding-block:6px}
+ .pane {padding-top:12px}.legend {max-width:calc(100% - 28px)}
+}
+@media (max-width:900px), (max-width:1024px) and (orientation:portrait) {
+ html,body {height:auto;min-height:100%;overflow:visible}
+ body {padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+ .app {height:auto;min-height:100vh;min-height:100svh;display:block}
+ .bar {display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px 12px;padding:10px 14px;min-height:0}
+ .brand {grid-column:1;grid-row:1;min-width:0;gap:8px;flex:none}
+ .brand svg {width:25px;height:24px;flex:none}
+ .brand-kicker {font-size:11px;white-space:normal;line-height:1.3}
+ .bar-end {grid-column:2;grid-row:1;gap:6px;justify-content:flex-end;flex:none}
+ .bar-pick {grid-column:1/-1;grid-row:2;min-width:0;border-top:1px solid var(--line);padding-top:7px;order:0}
+ .runbox {border:0;padding:0;min-height:0;flex-direction:row;align-items:baseline;flex-wrap:wrap;white-space:normal;gap:4px 9px;font-size:12px}
+ .runbox small {font-size:11px}.tag,.run {display:none}
+ .seg button {min-height:40px;padding:7px 10px}.bar-end .ib {width:42px;height:42px}
+ .stage {display:block;padding:0;gap:0}
+ .mapwrap {height:auto;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto auto;align-items:start;overflow:visible;isolation:isolate;background:var(--panel)}
+ .atlas-index {position:static;grid-column:1/-1;grid-row:1;max-width:none;width:auto;margin:0;padding:7px 14px;border:0;border-bottom:1px solid var(--line);border-radius:0;box-shadow:none;font-size:11px;flex-wrap:wrap;background:var(--panel);pointer-events:none}
+ .layers {position:static;grid-column:1;grid-row:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:auto;max-width:none;border:0;border-radius:0;margin:0;gap:0;align-self:stretch}
+ .layers button {min-width:0;min-height:44px;padding:8px 10px;font-size:13px;white-space:normal;text-align:left;line-height:1.2;border-right:1px solid var(--line2);border-bottom:1px solid var(--line2)}
+ .layers button i {width:12px;height:12px;flex:none}
+ .layers button:last-child {border-bottom:1px solid var(--line2)}
+ .tools {position:relative;inset:auto;grid-column:2;grid-row:2;display:grid;grid-template-columns:repeat(2,44px);padding:0;gap:0;border:0;border-radius:0;z-index:950;align-self:start}
+ .tools .ib {width:44px;height:44px;border-left:1px solid var(--line2);border-bottom:1px solid var(--line2);border-radius:0}
+ .tools .ib:last-of-type {border-bottom:1px solid var(--line2)}
+ .pop {top:100%;right:0;max-width:calc(100vw - 24px);width:280px;max-height: min(400px,48vh);max-height:min(400px,48svh);box-shadow:0 3px 12px rgba(0,0,0,.13);overflow:auto;overscroll-behavior:contain}
+ .pop label {min-height:32px}.pop input[type=range] {min-height:28px}
+ #map {position:relative;inset:auto;grid-column:1/-1;grid-row:3;width:100%;height:clamp(300px,53vh,540px);height:clamp(300px,53svh,540px);z-index:1}
+ .legend {position:static;grid-column:1/-1;grid-row:4;width:100%;max-width:none;padding:10px 14px 12px;border:0;border-top:1px solid var(--line);border-radius:0;background:var(--panel);z-index:2}
+ .legend h3 {font-size:13px}.legend p {display:block;font-size:12px;line-height:1.45}
+ .aqinames span {font-size:10px;overflow-wrap:anywhere}.aqibar span {font-size:10px;white-space:nowrap}
+ .tip {display:none!important}.helper {display:none}
+ .panel {min-height:0;overflow:visible;border-left:0;border-top:1px solid var(--line)}
+ .psl {padding:16px 16px 9px}.tabs {padding-inline:16px;gap:20px}
+ .tabs button {min-height:44px;font-size:14px}
+ .pane {padding:17px 16px 26px;overflow:visible}
+ .pt-head h2 {font-size:23px}.hero .big {font-size:clamp(43px,8vw,54px)}
+ .facts {grid-template-columns:repeat(2,minmax(0,1fr))}.facts dt {font-size:12px}.facts dd {font-size:22px}
+ .tbl {min-width:470px}.tbl td {padding-block:13px}.tbl th {font-size:11px}
+ .chart {min-width:0}.key {gap:10px 14px}
+ .time {position:fixed;z-index:1100;left:0;right:0;bottom:0;margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:44px 39px;align-items:center;gap:4px 14px;padding:7px 14px calc(7px + env(safe-area-inset-bottom,0px));border:0;border-top:1px solid var(--line);min-height:0;box-shadow:none;background:var(--panel)}
+ .time-intro {display:none}.tctl {grid-column:1;grid-row:1;gap:0}
+ .tctl .ib,.play {width:44px;height:44px}.tctl #stepBack,.tctl #stepFwd {display:grid}
+ .tnow {grid-column:2;grid-row:1;width:auto;text-align:right;min-width:0}
+ .tnow strong {font-size:22px}.tnow span {font-size:12px}
+ .track {grid-column:1/-1;grid-row:2;width:100%;height:39px;min-width:0;margin:0 5px;width:calc(100% - 10px)}
+ .spark {top:3px;height:19px}.ticks {top:22px;height:17px}.ticks b {font-size:10px;top:5px}.ticks b:not(.day) {display:none}
+ .thumb {top:3px;bottom:14px}.thumb::after {width:10px;height:10px;left:-6px}.nowmark {height:19px}
+}
+@media (min-width:600px) and (max-width:900px), (min-width:600px) and (max-width:1024px) and (orientation:portrait) {
+ .layers {grid-template-columns:repeat(4,minmax(0,1fr))}.tools {grid-template-columns:repeat(4,44px)}
+ .layers button {justify-content:center}.pane {padding-inline:24px}.psl,.tabs {padding-inline:24px}
+ .facts {grid-template-columns:repeat(3,minmax(0,1fr))}.facts .wide {grid-column:1/-1}
+ .hero {max-width:500px}.legend {padding-inline:20px}
+}
+@media (max-width:480px) {
+ .bar {grid-template-columns:minmax(0,1fr);gap:7px;padding:9px 12px}
+ .brand {grid-column:1;grid-row:1}.bar-end {grid-column:1;grid-row:2;justify-content:space-between}
+ .bar-pick {grid-column:1;grid-row:3;order:0}.seg button {min-width:53px;min-height:42px}
+ .brand-kicker {font-size:11px}.layers button {font-size:12px;padding:7px 8px;gap:6px}
+ .pane {padding-inline:13px}.facts dd {font-size:20px}.hero .big {font-size:44px}.rose {width:68px;height:68px}
+ .legend {padding-inline:12px}.time {padding-inline:12px}.tnow span {font-size:11px}
+}
+@media (max-width:350px) {
+ .layers button {font-size:11px;gap:5px;padding-inline:6px}.layers button i {width:10px;height:10px}
+ .facts {grid-template-columns:1fr}.aqibar span {font-size:8px}.aqinames span {font-size:9px}
+ .tnow span {font-size:10px}.brand-kicker {font-size:10px}
+}
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -1215,11 +1293,12 @@ $('#themeBtn').onclick=()=>{theme=theme==='dark'?'light':'dark';applyTheme();if(
 const map=L.map('map',{zoomSnap:0.5,zoomControl:false,attributionControl:true});
 const latMin=Math.min(...G.lats),latMax=Math.max(...G.lats),lonMin=Math.min(...G.lons),lonMax=Math.max(...G.lons);
 const bounds=[[latMin-dLat/2,lonMin-dLon/2],[latMax+dLat/2,lonMax+dLon/2]];
-const fitPad={paddingTopLeft:[window.innerWidth>860?150:10,60],paddingBottomRight:[10,window.innerWidth>860?20:60]};
-const fit=()=>map.fitBounds(bounds,fitPad);
+const stackedLayout=()=>matchMedia("(max-width:900px), (max-width:1024px) and (orientation:portrait)").matches;
+const fitPad=()=>stackedLayout()?{padding:[16,16]}:{paddingTopLeft:[150,60],paddingBottomRight:[10,20]};
+const fit=()=>map.fitBounds(bounds,fitPad());
 /* open on the Maldives (+100 km) even when the forecast covers a wider region */
 const MV=[[-1.6,71.74],[8.0,74.66]], wide=(bounds[1][1]-bounds[0][1])>MV[1][1]-MV[0][1]+1||(bounds[1][0]-bounds[0][0])>MV[1][0]-MV[0][0]+1;
-wide?map.fitBounds(MV,fitPad):fit(); map.setMaxBounds(L.latLngBounds(bounds).pad(wide?0.15:0.6));
+wide?map.fitBounds(MV,fitPad()):fit(); map.setMaxBounds(L.latLngBounds(bounds).pad(wide?0.15:0.6));
 {const f=x=>Math.abs(x).toFixed(0)+'°';$('#areaTag').textContent=wide?`${f(bounds[0][0])}${bounds[0][0]<0?'S':'N'}–${f(bounds[1][0])}N · ${f(bounds[0][1])}–${f(bounds[1][1])}E`:'MALDIVES +100 KM';}
 $('#zoomIn').onclick=()=>map.zoomIn(); $('#zoomOut').onclick=()=>map.zoomOut(); $('#zoomFit').onclick=fit;
 [['field',300],['isl',420],['coast',430],['parts',450],['labels',640]].forEach(([n,z])=>{map.createPane(n);map.getPane(n).style.zIndex=z;});
@@ -1406,7 +1485,7 @@ map.on('zoomend moveend',()=>{islandMode();drawLabels();drawArrows();});
 
 /* options popover */
 $('#optBtn').onclick=e=>{const p=$('#optPop');p.hidden=!p.hidden;$('#optBtn').setAttribute('aria-expanded',String(!p.hidden));e.stopPropagation();};
-document.addEventListener('click',e=>{if(!$('#optPop').hidden&&!e.target.closest('.tools'))$('#optPop').hidden=true;});
+document.addEventListener('click',e=>{if(!$('#optPop').hidden&&!e.target.closest('.tools')){$('#optPop').hidden=true;$('#optBtn').setAttribute('aria-expanded','false');}});
 
 /* hover tip */
 const tip=$('#tip');
@@ -1495,7 +1574,7 @@ function drawChart(){
   if(M.has_gust)tr.push({x:xE,y:gu,type:'scatter',mode:'lines',name:'Gust',line:{color:tone('#e8bc82','#9b662b'),width:2,dash:'dash',shape:'spline'},yaxis:'y3',hovertemplate:'%{y:.0f} '+U+'<extra>Gust</extra>'});
   const g=tone('rgba(193,236,233,.12)','rgba(36,42,44,.12)'),mr=Math.max(2,...s.precip.map(x=>x||0))*1.2,mw=Math.max(5,...sp.filter(x=>x!=null),...gu.filter(x=>x!=null))*1.18;
   Plotly.react('chart',tr,{margin:{l:34,r:30,t:4,b:26},font:{family:'Arial, Helvetica, sans-serif',size:10.5,color:tone('#accdd2','#4b5559')},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,
-    xaxis:{type:'date',gridcolor:g,tickformat:'%a %Hh',anchor:P?'y4':'y3',linecolor:g,nticks:6},
+    xaxis:{type:'date',gridcolor:g,tickformat:'%a %Hh',anchor:P?'y4':'y3',linecolor:g,nticks:$('#chart').clientWidth<360?4:6},
     yaxis:{domain:P?[.72,1]:[.58,1],range:[0,mr],gridcolor:g,zeroline:false,title:{text:'mm',standoff:2,font:{size:10}}},
     yaxis2:{overlaying:'y',side:'right',showgrid:false,rangemode:'tozero',tickfont:{size:9.5}},
     yaxis3:{domain:P?[.37,.64]:[0,.5],range:[0,mw],gridcolor:g,zeroline:false,title:{text:U,standoff:2,font:{size:10}}},
@@ -1534,17 +1613,23 @@ function drawSpark(){const sp=S2.speed.map(x=>x||0),mx=Math.max(1,...sp),W=1000,
   $('#spark').innerHTML=`<path d="M0,${H} L${pts} L${W},${H} Z"/>`;}
 function setTime(n){k=Math.max(0,Math.min(N-1,n));$('#thumb').style.left=xPct(k)+'%';const d=local(T[k]);
   $('#tClock').textContent=`${pad(d.getUTCHours())}:00`;$('#tDay').textContent=`${DOWL[d.getUTCDay()]} ${d.getUTCDate()} ${MON[d.getUTCMonth()]}`;
-  $('#track').setAttribute('aria-valuenow',k);drawField();drawArrows();if(S2)renderNow();}
+  $('#track').setAttribute('aria-valuenow',k);$('#track').setAttribute('aria-valuetext',lbl(T[k])+' Maldives time');drawField();drawArrows();if(S2)renderNow();}
 const track=$('#track');
 function fromX(cx){const r=track.getBoundingClientRect();setTime(Math.round((cx-r.left)/r.width*(N-1)));}
-track.addEventListener('pointerdown',e=>{track.setPointerCapture(e.pointerId);fromX(e.clientX);const mv=ev=>fromX(ev.clientX),up=()=>{track.removeEventListener('pointermove',mv);track.removeEventListener('pointerup',up);};
-  track.addEventListener('pointermove',mv);track.addEventListener('pointerup',up);});
-track.addEventListener('keydown',e=>{if(e.key==='ArrowRight')setTime(k+1);if(e.key==='ArrowLeft')setTime(k-1);});
+track.setAttribute('aria-valuemin','0');track.setAttribute('aria-valuemax',String(N-1));
+track.addEventListener('pointerdown',e=>{if(e.button!==0||!e.isPrimary)return;track.setPointerCapture(e.pointerId);fromX(e.clientX);});
+track.addEventListener('pointermove',e=>{if(track.hasPointerCapture(e.pointerId))fromX(e.clientX);});
+track.addEventListener('keydown',e=>{const n={ArrowRight:k+1,ArrowLeft:k-1,ArrowUp:k+1,ArrowDown:k-1,Home:0,End:N-1}[e.key];if(n!==undefined){e.preventDefault();setTime(n);}});
 $('#stepBack').onclick=()=>setTime(k-1);$('#stepFwd').onclick=()=>setTime(k+1);
 $('#playBtn').onclick=()=>{if(timer){clearInterval(timer);timer=null;$('#app').classList.remove('playing');return;}
   $('#app').classList.add('playing');timer=setInterval(()=>setTime((k+1)%N),1100);};
 function warm(q=0){if(q>=N)return;(window.requestIdleCallback||setTimeout)(()=>{fieldImage(layer,q);warm(q+1);});}
 
+/* Re-measure the map when its layout changes at phone/tablet breakpoints. */
+if(typeof ResizeObserver==='function'){
+  let lastMapSize='';
+  new ResizeObserver(()=>{const el=$('#map'),size=el.clientWidth+'x'+el.clientHeight;if(size===lastMapSize)return;lastMapSize=size;map.invalidateSize({pan:false,debounceMoveend:true});}).observe($('#map'));
+}
 /* ---------- start ---------- */
 const nowMs=Date.now();for(let q=0;q<N;q++)if(new Date(T[q].replace('Z',':00Z')).getTime()>=nowMs-ivl*1800e3){k=q;break;}
 if(P){document.body.classList.add('has-pm');map.attributionControl.addAttribution('Particulates: CAMS/Copernicus via Open-Meteo');}
