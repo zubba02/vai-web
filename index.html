@@ -8,7 +8,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d2b3e'/%3E%3Cg fill='none' stroke-linecap='round' stroke-width='2.6'%3E%3Cpath stroke='%2362bfea' d='M5 11h13a3.5 3.5 0 1 0-3.5-3.5'/%3E%3Cpath stroke='%23fff' d='M5 17h19a3.5 3.5 0 1 1-3.5 3.5'/%3E%3C/g%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link id="vai-design-font" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&amp;display=swap" rel="stylesheet">
 <style>
 
 /* required styles */
@@ -886,6 +886,176 @@ svg.i{fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke
   #stepBack,#stepFwd{display:none}
 }
 </style>
+<style id="vai-design-refinement">
+/* vai. — visual refinement, applied after the existing app stylesheet.
+   Forecast values, scientific palettes, data and interaction logic are untouched. */
+:root {
+  --font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --headfont: var(--font);
+  --paper: #edf3f5;
+  --panel: #ffffff;
+  --raise: #f3f7f8;
+  --ink: #102c3b;
+  --ink2: #496372;
+  --ink3: #587280;
+  --line: #d6e2e7;
+  --line2: #e2ebef;
+  --sea: #087d80;
+  --sea-soft: #e2f4f2;
+  --control: #ffffff;
+  --control-ink: #294b5a;
+  --control-muted: #506b79;
+  --control-hover: #e7f3f2;
+  --control-active: #0b5862;
+  --control-shadow: 0 5px 18px rgba(8, 39, 56, .14);
+}
+:root[data-theme="dark"] {
+  --paper: #0a202b;
+  --panel: #102b37;
+  --raise: #163642;
+  --ink: #edf7f8;
+  --ink2: #b5cbd2;
+  --ink3: #9cb7c1;
+  --line: #33515e;
+  --line2: #254550;
+  --control: #102d3b;
+  --control-ink: #e6f3f5;
+  --control-muted: #b8cdd3;
+  --control-hover: #214854;
+  --control-active: #126772;
+  --control-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+}
+body { font-size: 14px; line-height: 1.55; letter-spacing: 0; }
+button, input, select { font-family: var(--font); }
+:focus-visible { outline: 2px solid var(--sea); outline-offset: 3px; }
+.bar { min-height: 76px; padding-block: 12px; box-shadow: none; }
+.bar::before { height: 2px; }
+.brand { gap: 11px; }
+.brand svg { padding: 10px; width: 28px; height: 28px; border-radius: 13px; box-shadow: none; }
+.brand-name { font-size: 29px; font-weight: 750; letter-spacing: -.055em; }
+.brand-kicker { font-size: 10px; letter-spacing: .075em; font-weight: 600; }
+.runbox { height: auto; min-height: 42px; font-size: 13px; font-weight: 650; letter-spacing: 0; }
+.runbox small { font-size: 11.5px; }
+.run { font-size: 12px; line-height: 1.5; }
+.seg button { font-size: 12px; font-weight: 600; }
+.tag { font-size: 11px; letter-spacing: .035em; }
+.stage { gap: 12px; }
+.mapwrap, .panel { border-radius: 14px; }
+.mapwrap { box-shadow: 0 3px 16px rgba(13, 51, 65, .08); }
+.atlas-index { font-size: 10px; letter-spacing: .075em; font-weight: 650; }
+.layers, .tools, .legend, .pop { background: var(--control); border: 1px solid var(--line); box-shadow: var(--control-shadow); }
+.layers { border-radius: 12px; }
+.layers button { color: var(--control-ink); font-size: 13px; font-weight: 600; min-height: 41px; }
+.layers button i { box-shadow: 0 0 0 2px var(--control), 0 0 0 3px var(--line); }
+.layers button:hover, .tools .ib:hover { background: var(--control-hover); color: var(--control-ink); }
+.layers button[aria-pressed="true"] { background: var(--control-active); color: #fff; box-shadow: none; }
+.tools .ib { color: var(--control-ink); width: 40px; height: 40px; }
+.pop { color: var(--control-ink); font-size: 13px; max-height: min(460px, 65vh); overflow: auto; }
+.pop input { accent-color: var(--sea); }
+.legend { color: var(--control-ink); padding: 12px 14px; width: min(330px, calc(100% - 38px)); }
+.legend h3 { font-size: 13px; font-weight: 650; flex-wrap: wrap; gap: 3px 8px; }
+.legend h3 span, .lticks, .legend p { color: var(--control-muted); }
+.legend h3 span, .lticks { font-size: 11px; }
+.legend p { font-size: 11.5px; line-height: 1.45; }
+.helper strong { font-size: 13px; }
+.helper small { font-size: 11px; }
+/* Keep the existing high-contrast map-label colors against scientific overlays. */
+.isl-lab span { font-weight: 600; }
+.panel { background: linear-gradient(155deg, #103847, #0a2939 72%); box-shadow: 0 4px 18px rgba(9, 47, 58, .12); }
+.panel:focus-within { --sea: #83e0d8; }
+.psl { font-size: 11px; letter-spacing: .085em; padding: 17px 20px 10px; font-weight: 650; }
+.psl .cnt { font-size: 11px; color: #a5c3cc; letter-spacing: .02em; }
+.tabs { padding-inline: 14px; gap: 5px; }
+.tabs button { font-size: 13px; font-weight: 600; padding-block: 12px; }
+.tabs button[aria-selected="true"] { background: rgba(100, 221, 208, .075); border-radius: 8px 8px 0 0; }
+.pane { padding: 20px 19px 25px; }
+.pt-head:before { font-size: 10px; font-weight: 650; letter-spacing: .08em; margin-bottom: 7px; }
+.pt-head h2 { font-size: clamp(23px, 1.75vw, 28px); font-weight: 700; letter-spacing: -.035em; overflow-wrap: anywhere; }
+.pt-head p { font-size: 12px; color: #b0cbd2; margin-top: 5px; }
+.hero { min-height: 148px; margin: 16px 0 13px; padding: 17px 15px; border-radius: 13px; background: linear-gradient(135deg, #116174, #10475c); box-shadow: none; }
+.hero .big { font-size: clamp(42px, 3.5vw, 58px); font-weight: 700; letter-spacing: -.055em; white-space: normal; overflow-wrap: anywhere; }
+.hero .big small { font-size: clamp(15px, 1.3vw, 19px); font-weight: 600; white-space: nowrap; }
+.hero .dirline { font-size: 13px; margin-top: 8px; }
+.hero .cap { font-size: 11.5px; line-height: 1.45; }
+.rose { width: clamp(65px, 6vw, 86px); height: auto; aspect-ratio: 1; }
+.facts { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
+.facts div { min-height: 80px; padding: 12px; gap: 7px; border-radius: 11px; background: rgba(213, 243, 239, .055); }
+.facts dt { font-size: 12px; color: #b3cdd5; font-weight: 550; line-height: 1.4; }
+.facts dd { font-size: 23px; font-weight: 650; letter-spacing: -.035em; line-height: 1.25; overflow-wrap: anywhere; }
+.facts dd small { font-size: 11px; font-weight: 500; }
+.aqicard p { font-size: 12px; color: #b3cdd5; }
+.aqinames span { color: #b3cdd5; font-size: 10px; }
+.sub { margin: 20px 0 10px; }
+#subHead { font-size: 14px !important; }
+.sub span, .key { font-size: 11.5px; }
+.note { font-size: 12px; color: #b0cbd2; }
+#tab-table { overflow-x: auto; }
+.tbl { font-size: 12.5px; }
+.tbl th { font-size: 10px; letter-spacing: .035em; color: #b0cbd2; }
+.tbl td { padding-block: 10px; }
+.time { border-radius: 13px; min-height: 77px; box-shadow: none; }
+.time-intro { font-size: 10px; letter-spacing: .075em; }
+.time-intro small, .tnow span { font-size: 11px; }
+.tnow strong { font-size: 25px; font-weight: 700; letter-spacing: -.035em; }
+.ticks b { font-size: 10.5px; }
+.track { border-radius: 9px; }
+@media (min-width: 861px) and (max-width: 1110px) {
+  .brand-name { font-size: 25px; }
+  .brand-kicker { font-size: 9px; letter-spacing: .04em; }
+  .bar { gap: 10px; }
+  .runbox { gap: 7px; padding-inline: 10px; }
+  .seg button { padding-inline: 8px; }
+  .pane { padding-inline: 15px; }
+  .facts div { padding-inline: 10px; }
+}
+@media (max-width: 860px) {
+  .bar { padding: 10px 12px; gap: 8px; min-height: 0; }
+  .brand-name { font-size: 26px; }
+  .brand-kicker { font-size: 9px; letter-spacing: .045em; }
+  .brand svg { width: 25px; height: 25px; padding: 8px; }
+  .bar-pick { min-width: 0; }
+  .runbox { min-height: 35px; padding: 6px 10px; font-size: 12px; white-space: normal; flex-wrap: wrap; gap: 4px 9px; }
+  .runbox small { font-size: 11px; }
+  .stage { gap: 9px; }
+  .mapwrap { height: 68vh; height: 68svh; min-height: 385px; }
+  .atlas-index { font-size: 9px; max-width: calc(100% - 67px); padding: 7px 10px; gap: 5px; flex-wrap: wrap; }
+  .layers { top: 53px; max-width: calc(100% - 70px); display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 3px; }
+  .layers button { font-size: 12px; padding: 7px 9px; min-height: 39px; white-space: normal; text-align: left; gap: 6px; }
+  .layers button i { width: 12px; height: 12px; }
+  .tools .ib { width: 38px; height: 38px; }
+  .pop { right: 47px; max-width: calc(100vw - 78px); }
+  .legend { width: min(290px, calc(100% - 18px)); bottom: 23px; padding: 10px 12px; }
+  .legend p { display: block; font-size: 10.5px; line-height: 1.35; }
+  .pane { padding: 20px; }
+  .hero .big { font-size: clamp(44px, 8vw, 62px); }
+  .hero .big small { font-size: 18px; }
+  .rose { width: 82px; }
+  .time { min-height: 70px; padding-bottom: max(7px, env(safe-area-inset-bottom)); }
+  .tnow strong { font-size: 21px; }
+}
+@media (max-width: 420px) {
+  .brand { flex: 1 1 100%; }
+  .bar-end { flex: 1 1 auto; justify-content: flex-start; }
+  .bar-pick { order: 2; flex: 1 1 100%; }
+  .brand-kicker { white-space: normal; }
+  .seg button { padding-inline: 10px; }
+  .pane { padding-inline: 15px; }
+  .hero { padding-inline: 12px; }
+  .hero .big { font-size: 43px; }
+  .rose { width: 65px; }
+  .facts dd { font-size: 21px; }
+  .time { gap: 7px; }
+  .tnow { width: 67px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tabs button { transition: none; }
+}
+
+/* Keep map attribution clear and constrain the settings menu on phones. */
+.legend { bottom: 24px; }
+@media (max-width: 860px) { .pop { max-height: min(340px, 55svh); } .legend { bottom: 23px; } }
+@media (max-width: 360px) { .atlas-index { letter-spacing: .035em; } .layers button { padding-inline: 6px; } .facts dd { font-size: 19px; } }
+</style>
 </head>
 <body>
 <div class="app" id="app">
@@ -1357,13 +1527,13 @@ function drawChart(){
                {x:xE,y:s.pm10,type:'scatter',mode:'lines',name:'PM10',line:{color:'#f4c73a',width:1.4,dash:'dot',shape:'spline'},yaxis:'y4',hovertemplate:'%{y:.0f} µg/m³<extra>PM10</extra>'});
   if(M.has_gust)tr.push({x:xE,y:gu,type:'scatter',mode:'lines',name:'Gust',line:{color:'#e8bc82',width:2,dash:'dash',shape:'spline'},yaxis:'y3',hovertemplate:'%{y:.0f} '+U+'<extra>Gust</extra>'});
   const g='rgba(193,236,233,.12)',mr=Math.max(2,...s.precip.map(x=>x||0))*1.2,mw=Math.max(5,...sp.filter(x=>x!=null),...gu.filter(x=>x!=null))*1.18;
-  Plotly.react('chart',tr,{margin:{l:34,r:30,t:4,b:26},font:{family:'DM Sans, sans-serif',size:10.5,color:'#accdd2'},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,
+  Plotly.react('chart',tr,{margin:{l:34,r:30,t:4,b:26},font:{family:'Inter, system-ui, sans-serif',size:10.5,color:'#accdd2'},paper_bgcolor:'rgba(0,0,0,0)',plot_bgcolor:'rgba(0,0,0,0)',showlegend:false,
     xaxis:{type:'date',gridcolor:g,tickformat:'%a %Hh',anchor:P?'y4':'y3',linecolor:g,nticks:6},
     yaxis:{domain:P?[.72,1]:[.58,1],range:[0,mr],gridcolor:g,zeroline:false,title:{text:'mm',standoff:2,font:{size:10}}},
     yaxis2:{overlaying:'y',side:'right',showgrid:false,rangemode:'tozero',tickfont:{size:9.5}},
     yaxis3:{domain:P?[.37,.64]:[0,.5],range:[0,mw],gridcolor:g,zeroline:false,title:{text:U,standoff:2,font:{size:10}}},
     yaxis4:{domain:[0,.29],rangemode:'tozero',gridcolor:g,zeroline:false,title:{text:'µg/m³',standoff:2,font:{size:10}},visible:!!P},
-    bargap:.1,hovermode:'x unified',hoverlabel:{bgcolor:'#082f40',bordercolor:'#2f6372',font:{color:'#fff',family:'DM Sans'}},shapes:[]},{displayModeBar:false,responsive:true});
+    bargap:.1,hovermode:'x unified',hoverlabel:{bgcolor:'#082f40',bordercolor:'#2f6372',font:{color:'#fff',family:'Inter, system-ui, sans-serif'}},shapes:[]},{displayModeBar:false,responsive:true});
   const el=$('#chart');el.removeAllListeners&&el.removeAllListeners('plotly_click');
   el.on('plotly_click',ev=>{const x=String(ev.points[0].x).replace(' ','T').slice(0,16);let q=xE.indexOf(x);if(q<0)q=xM.indexOf(x);if(q>=0)setTime(q);});
   $('#key').innerHTML=`<span><i></i>Wind</span>${M.has_gust?'<span><i class="k2"></i>Gust</span>':''}<span><i class="k3"></i>Rain per ${ivl} h</span><span><i class="k4"></i>Running total</span>${P?'<span><i class="k5"></i>PM2.5</span><span><i class="k6"></i>PM10</span>':''}`;
